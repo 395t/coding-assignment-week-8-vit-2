@@ -68,7 +68,6 @@ def train(config):
 
             if total_steps % 100 == 0:
                 print(f'epoch {epoch} step {total_steps} loss {loss.item():.4f}')
-                break
         print(f'epoch {epoch} step {total_steps} loss {loss.item():.4f}')
 
         ep_train_loss, ep_train_acc = evaluate(model, train_dataset, config)
