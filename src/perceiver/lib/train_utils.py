@@ -6,6 +6,9 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from perceiver_pytorch import Perceiver, PerceiverIO
 
+def pp(*args, **kwargs):
+    print(*args, **kwargs, flush=True)
+
 def get_datasets(dataset, data_root):
     assert dataset in ('stl10', 'cifar10', 'tinyimagenet')
     data_root = os.path.abspath(os.path.expanduser(data_root))
@@ -28,7 +31,7 @@ def get_model(config):
                  }[config.model_type]
     model = model_cls(**config.model_args)
     param_count = sum(np.prod(p.shape).item() for p in model.parameters())
-    print(f'Created {config.model_type} model with {param_count} parameters.')
+    pp(f'Created {config.model_type} model with {param_count} parameters.')
     if config.cuda:
         model.cuda()
     return model
@@ -51,7 +54,7 @@ def train(config):
 
     total_steps = 0
     for epoch in range(1, config.train.num_epochs+1):
-        print(f'Starting epoch {epoch}')
+        pp(f'Starting epoch {epoch}')
 
         for _, (x, y) in enumerate(train_loader):
             total_steps += 1 
@@ -67,14 +70,14 @@ def train(config):
             opt.step()
 
             if total_steps % 100 == 0:
-                print(f'epoch {epoch} step {total_steps} loss {loss.item():.4f}')
-        print(f'epoch {epoch} step {total_steps} loss {loss.item():.4f}')
+                pp(f'epoch {epoch} step {total_steps} loss {loss.item():.4f}')
+        pp(f'epoch {epoch} step {total_steps} loss {loss.item():.4f}')
 
         ep_train_loss, ep_train_acc = evaluate(model, train_dataset, config)
-        print(f'epoch {epoch} Train accuracy: {ep_train_acc:.4f} loss: {ep_train_loss:.4f}')
+        pp(f'epoch {epoch} Train accuracy: {ep_train_acc:.4f} loss: {ep_train_loss:.4f}')
         ep_test_loss, ep_test_acc = evaluate(model, test_dataset, config)
-        print(f'epoch {epoch} Test accuracy: {ep_test_acc:.4f} loss: {ep_test_loss:.4f}')
-        print()
+        pp(f'epoch {epoch} Test accuracy: {ep_test_acc:.4f} loss: {ep_test_loss:.4f}')
+        pp()
 
 
 @torch.no_grad()
