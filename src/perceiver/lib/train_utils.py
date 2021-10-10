@@ -1,4 +1,5 @@
 import os
+import yaml
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -53,6 +54,12 @@ def train(config):
     opt = get_optimizer(model, config)
 
     total_steps = 0
+    results = {
+        'train_loss': [],
+        'train_acc': [],
+        'test_loss': [],
+        'test_acc': [],
+    }
     for epoch in range(1, config.train.num_epochs+1):
         pp(f'Starting epoch {epoch}')
 
@@ -78,6 +85,14 @@ def train(config):
         ep_test_loss, ep_test_acc = evaluate(model, test_dataset, config)
         pp(f'epoch {epoch} Test accuracy: {ep_test_acc:.4f} loss: {ep_test_loss:.4f}')
         pp()
+
+        results['train_loss'].append(ep_train_loss)
+        results['train_acc'].append(ep_train_acc)
+        results['test_loss'].append(ep_test_loss)
+        results['test_acc'].append(ep_test_acc)
+
+        with open(config.result_file, 'w') as f:
+            yaml.dump(results, f, indent=4)
 
 
 @torch.no_grad()

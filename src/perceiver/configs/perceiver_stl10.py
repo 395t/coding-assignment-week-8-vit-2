@@ -6,13 +6,13 @@ def C(**kwargs):
 def get_config():
     return C(
         cuda                = True,
-        dataset             = 'cifar10',
-        image_size          = 32,
+        dataset             = 'stl10',
+        image_size          = 96,
         num_classes         = 10,
-        result_file         = 'result_perceiver_cifar10.yml',
+        result_file         = 'result_perceiver_stl10.yml',
 
         train=C(
-            batch_size          = 64,
+            batch_size          = 32,
             num_epochs          = 100,
         ),
 
