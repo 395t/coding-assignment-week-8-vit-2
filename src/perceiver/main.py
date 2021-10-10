@@ -1,9 +1,11 @@
+import sys
+
 from configs import load_config
 from lib.train_utils import train
 
 
 def main():
-    config = load_config('perceiver_cifar10')
+    config = load_config(sys.argv[1])
     train(config)
 
 
