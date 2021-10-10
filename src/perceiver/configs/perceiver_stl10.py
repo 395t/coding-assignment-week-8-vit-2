@@ -14,6 +14,7 @@ def get_config():
         train=C(
             batch_size          = 32,
             num_epochs          = 100,
+            random_aug          = True,
         ),
 
         optimizer_type      = 'adamw',
@@ -29,12 +30,12 @@ def get_config():
             max_freq            = 10.,      # maximum frequency, hyperparameter depending on how fine the data is
             depth               = 6,        # depth of net. The shape of the final attention mechanism will be:
                                             #   depth * (cross attention -> self_per_cross_attn * self attention)
-            num_latents         = 32,       # number of latents, or induced set points, or centroids. different papers giving it different names
+            num_latents         = 16,       # number of latents, or induced set points, or centroids. different papers giving it different names
             latent_dim          = 64,       # latent dimension
             cross_heads         = 1,        # number of heads for cross attention. paper said 1
             latent_heads        = 8,        # number of heads for latent self attention, 8
-            cross_dim_head      = 32,       # number of dimensions per cross attention head
-            latent_dim_head     = 32,       # number of dimensions per latent self attention head
+            cross_dim_head      = 16,       # number of dimensions per cross attention head
+            latent_dim_head     = 16,       # number of dimensions per latent self attention head
             num_classes         = 10,       # output number of classes
             attn_dropout        = 0.2,
             ff_dropout          = 0.2,
