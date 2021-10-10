@@ -1,4 +1,5 @@
 import os
+from torchvision.transforms.transforms import RandomRotation, RandomVerticalFlip
 import yaml
 
 import numpy as np
@@ -18,18 +19,26 @@ def get_data_transforms(dataset, random_aug):
     transforms = []
     if dataset == 'cifar10':
         if random_aug:
-            random_transforms = [
+            rt = T.RandomChoice([
                 T.ColorJitter(0.2, 0.2, 0.2, 0.2),
+                T.RandomHorizontalFlip(),
+                T.RandomVerticalFlip(),
+                T.RandomRotation(degrees=(0, 180)),
                 T.RandomAffine(degrees=15, translate=(0.2, 0.2),
-                                scale=(0.8, 1.2), shear=15,
-                                resample=Image.BILINEAR),
+                               scale=(0.8, 1.2), shear=15,
+                               resample=Image.BILINEAR),
                 T.RandomEqualize(),
                 T.RandomAutocontrast(),
                 T.RandomAdjustSharpness(sharpness_factor=2),
-            ]
-            transforms.extend([
-                T.RandomHorizontalFlip(),
-                T.RandomChoice(random_transforms)])
+            ])
+            transforms.append(
+                T.RandomChoice([
+                    rt,
+                    T.Compose([rt, rt]),
+                    T.Compose([rt, rt, rt]),
+                    T.Compose([rt, rt, rt, rt]),
+                ])
+            )
         transforms.extend([
             T.ToTensor(),
             T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
@@ -37,8 +46,11 @@ def get_data_transforms(dataset, random_aug):
 
     elif dataset == 'stl10':
         if random_aug:
-            random_transforms = [
+            rt = T.RandomChoice([
                 T.ColorJitter(0.2, 0.2, 0.2, 0.2),
+                T.RandomHorizontalFlip(),
+                T.RandomVerticalFlip(),
+                T.RandomRotation(degrees=(0, 180)),
                 T.transforms.RandomResizedCrop(96, scale=(0.5, 1)),
                 T.RandomAffine(degrees=15, translate=(0.2, 0.2),
                                scale=(0.8, 1.2), shear=15,
@@ -46,10 +58,15 @@ def get_data_transforms(dataset, random_aug):
                 T.RandomEqualize(),
                 T.RandomAutocontrast(),
                 T.RandomAdjustSharpness(sharpness_factor=2),
-            ]
-            transforms.extend([
-                T.RandomHorizontalFlip(),
-                T.RandomChoice(random_transforms)])
+            ])
+            transforms.append(
+                T.RandomChoice([
+                    rt,
+                    T.Compose([rt, rt]),
+                    T.Compose([rt, rt, rt]),
+                    T.Compose([rt, rt, rt, rt]),
+                ])
+            )
         transforms.extend([
             T.ToTensor(),
             T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
@@ -154,6 +171,10 @@ def train(config):
 
         with open(config.result_file, 'w') as f:
             yaml.dump(results, f, indent=4)
+
+    pp('\nTraining finished!')
+    pp(f'  Max train accuracy: {max(results["train_acc"]):.4f}')
+    pp(f'  Max test accuracy: {max(results["test_acc"]):.4f}')
 
 
 @torch.no_grad()
