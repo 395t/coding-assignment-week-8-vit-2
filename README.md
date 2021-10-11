@@ -166,6 +166,14 @@ To study the effects of dropout and data augmentation, we trained three differen
   <img src="images/perceiver_cifar10_overfit_train_acc.png" width="49%" />
 </p>
 
+As clearly shown here, there is a substantial overfitting for the two models that did not use random augmentation.  We were surprised to find that dropout had such negligible effect.  With random augmentation, the gap between train and test accuracy was only about 10%, whereas the gap was ~36% for the other two.
+The best test set accuracies across all epochs are included below:
+
+|                     | None        | Only Dropout | Dropout & Augmentation |
+| ------------------- | ----------- | ------------ | ---------------------- |
+| Best Train Accuracy | **96.47 %** | 96.25 %      | 76.11 %                |
+| Best Test Accuracy  | 60.37 %     | 60.47 %      | **66.12 %**            |
+
 ## Result: Tiny Imagenet
 
 For Tiny Imagenet, we also trained three different models with different dropout and data augmentation strategies.
@@ -175,8 +183,8 @@ For Tiny Imagenet, we also trained three different models with different dropout
   <img src="images/perceiver_tiny_overfit_train_acc.png" width="49%" />
 </p>
 
-Again, random augmentation did not help the model generalize better.
-Surprisingly, the issue of overfitting was even more significant for Tiny Imagenet, which we expected to be the most complex dataset and to suffer the least from overfitting.  See the train loss curves  below.
+Surprisingly, in a contrast to the results from CIFAR-10 and STL-10, random augmentation did not help the model generalize better.
+Moreover, the issue of overfitting was even more significant for Tiny Imagenet, which we expected to be the most complex dataset and to suffer the least from overfitting.  See the train loss curves  below.
 
 <p float="middle">
   <img src="images/perceiver_tiny_overfit_test_loss.png" width="49%" />

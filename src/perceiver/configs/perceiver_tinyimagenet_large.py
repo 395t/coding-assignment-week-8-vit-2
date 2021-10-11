@@ -13,7 +13,7 @@ def get_config():
 
         train=C(
             batch_size          = 64,
-            num_epochs          = 20,
+            num_epochs          = 100,
             random_aug          = True,
         ),
 

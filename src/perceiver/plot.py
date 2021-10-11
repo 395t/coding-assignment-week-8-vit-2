@@ -67,60 +67,26 @@ def plot_curves(*, out, files, labels, split, dataset):
     })
 
 
-        # for opt_name in OPT_NAMES:
-        #     out_dir = f'results/compare_opts/lr={lr}/{opt_name}'
-        #     if not os.path.exists(os.path.join(out_dir, 'FINISHED')):
-        #         print(f'Skipping lr={lr} due to missing runs.')
-        #         continue
-
-        #     fn = sorted(glob.glob(os.path.join(out_dir, 'ckpt_*')))[-1]
-        #     print(f'Processing {fn}')
-        #     stats = torch.load(fn)['stats']
-        #     if split == 'train':
-        #         results[opt_name] = {
-        #             'x': 10 * np.arange(1, len(stats['loss']) + 1),
-        #             'y': stats['loss'],
-        #         }
-        #     elif split == 'test':
-        #         results[opt_name] = {
-        #             'x': 10 * np.arange(1, len(stats['eval_loss']) + 1),
-        #             'y': np.array(stats['eval_loss']),
-        #         }
-
-        # plot(f'plots/{split}_loss..lr={lr}',
-        #     results,
-        #     smooth=100 if split == 'train' else 10,
-        #     skip_first=100 if split == 'train' else 10,
-        #     set_kwargs={
-        #         'ylim': (40, 120) if split == 'train' else (50, 160),
-        #         'title': f'Training Loss (lr={lr})' if split == 'train' else f'Test Loss (lr={lr})',
-        #         'xlabel': 'Step' if split == 'train' else 'Epoch',
-        #         'ylabel': 'Negative ELBO',
-        #     })
-
-# def print_final_losses(lrs):
-#     results = {}
-#     for opt_name in OPT_NAMES:
-#         results[opt_name] = {}
-#         for lr in lrs:
-#             out_dir = f'results/compare_opts/lr={lr}/{opt_name}'
-#             if not os.path.exists(os.path.join(out_dir, 'FINISHED')):
-#                 print(f'Skipping lr={lr} due to missing runs.')
-#                 continue
-
-#             fn = sorted(glob.glob(os.path.join(out_dir, 'ckpt_*')))[-1]
-#             print(f'Processing {fn}')
-#             stats = torch.load(fn)['stats']
-#             results[opt_name][lr] = stats['eval_loss'][-1]
-
-#     for opt_name in OPT_NAMES:
-#         print(f'Optimizer {opt_name}:')
-#         for lr in lrs:
-#             print(f'  -> lr={lr}: {results[opt_name][lr]:.2f}')
+def best_vals(*files):
+    print()
+    for fn in files:
+        with open(fn, 'r') as fp:
+            dd = yaml.load(fp)
+        best_train_loss = min(dd['train_loss'])
+        best_train_acc = max(dd['train_acc']) * 100.
+        best_test_loss = min(dd['test_loss'])
+        best_test_acc = max(dd['test_acc']) * 100.
+        print(f'Results for: {fn}')
+        print(f'  - best train acc: {best_train_acc:2f}')
+        print(f'  - best test acc: {best_test_acc:2f}')
+        print(f'  - best train loss: {best_train_loss:.4f}')
+        print(f'  - best test loss: {best_test_loss:.4f}')
+        print()
 
 
 if __name__ == '__main__':
     fire.Fire({
         'plot_train': functools.partial(plot_curves, split='train'),
         'plot_test': functools.partial(plot_curves, split='test'),
+        'best_vals':  best_vals,
     })
