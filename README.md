@@ -7,7 +7,7 @@ This weeks papers are about Visual Transformers, particularly:
 * **Peceiver IO** - [	Perceiver IO: A General Architecture for Structured Inputs & Outputs, Jaegle, Borgeaud, Alayrac, Doersch, Ionescu, Ding, Koppula, Zoran, Brock, Shelhamer, Hénaff, Botvinick, Zisserman, Vinyals, Carreira; 2021](https://arxiv.org/abs/2107.14795)
 * **MLP-Mixer** - [	MLP-Mixer: An all-MLP Architecture for Vision, Tolstikhin, Houlsby, Kolesnikov, Beyer, Zhai, Unterthiner, Yung, Steiner, Keysers, Uszkoreit, Lucic, Dosovitskiy; 2021](https://arxiv.org/abs/2105.01601)
 
-Datasets used:
+We experimented on following 3 Image-classification datasets:
 * [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html)
 * [STL-10](https://cs.stanford.edu/~acoates/stl10/)
 * [Tiny ImageNet](https://www.kaggle.com/c/tiny-imagenet)
@@ -61,6 +61,77 @@ Fine-tuning a pre-trained model yielded extremely impresive results. Here are th
 
 ### **Conclusion**
 Although at times extremely impressive, I would consider the Swin Transformer extremely finicky. At times results were extremely random and finding a set of hyperparameters that set the model up for success was difficult. Changing certain  depths and window size often didn't show consistent trends and looking at the learning  rate there doesn't seem to be many changes. This results on models that often converge  to lower accuracies. On the other hand however, fine-tuning the model shows extremely impressive results when fine-tuning the model. This leads me to believe that this  model shines brightest in large scale settings  were many branching hyperparameters can be explored and pre-training is an option.
+
+# Transformer in Transformer (TnT)
+
+## Code
+All training code for TnT experiments can be found in the folder `src/tnt`, the main training function is implemented in `src/tnt/train.py`. The training code is built over the code from [this](https://github.com/kentaroy47/vision-transformers-cifar10) github repo and TnT model code was directly taken from [this](https://github.com/lucidrains/transformer-in-transformer) repo. Pretrained TnT models were obtained from the [timm](https://github.com/rwightman/pytorch-image-models) library.
+
+Sample training commands
+``` bash
+# train randomly initialized TnT model
+python train.py --net tnt --dataset tiny-imagenet/cifar10/stl10 --lr 1e-4 --bs 128 --n_epochs 10
+
+# train pretrained TnT model from timm (tnt_s_patch16_224)
+python train.py --net tnt_timm --dataset tiny-imagenet/cifar10/stl10 --lr 1e-4 --bs 128 --n_epochs 10
+```
+
+## Experimental setup
+### Model
+We mainly experiment with following 2 types of TnT models
+* `Rand-TnT`: Randomly initialized 6-layer TnT architecture with default `patch-size=4` and `pixel-size=2`
+* `Pre-TnT`: Pretrained TnT model (TnT-S in the paper) from timm library (`tnt_s_patch16_224`)
+
+### Augmentation
+All experiments use following augmentation to input images, without augmentations we get noticable degradation in validation accuracy
+``` python
+transform_train = transforms.Compose([
+    transforms.Resize(size),
+    transforms.RandomCrop(size, padding=4),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+])
+
+transform_test = transforms.Compose([
+    transforms.Resize(size),
+    transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+])
+```
+
+### Optimization
+All models are trained with Adam optimizer and cosine learning rate schedule. Following default hyperparameters were used (unless specifically mentioned):
+* Learning Rate (LR): 1e-4
+* Batch-Size (BS): 128
+
+## `Rand-TnT` Results
+Train/Validation accuracy of `Rand-TnT` model across datasets at different learning rates
+Dataset           | Validation                                                  |  Train
+:----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
+CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+STL-10 | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+
+## `Pre-TnT` Results
+Train/Validation accuracy of `Pre-TnT` model across datasets at different learning rates
+Dataset           | Validation                                                  |  Train
+:----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
+CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Pre-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/CIFAR-10_Pre-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+STL-10 | <img src="src/tnt/Plots/STL-10_Pre-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/STL-10_Pre-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+
+## Pixel size and Patch size ablation
+Train/Validation accuracy of `Rand-TnT` model across datasets with different combination of Patch-size and Pixel-size
+Dataset           | Validation                                                  |  Train
+:----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
+CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="300"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="300"/> 
+STL-10 | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="300"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="300"/> 
+Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_Arch.png" height="300"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_Arch.png" height="300"/> 
+
+## Conclusion
+* With Pretraining TnT gets very good results but without pretraining it doesn't perform that impressive
+* Smaller patch sizes and pixel sizes give better results across all 3 datasets for randomly initialized TnT models
 
 # Perceiver
 
