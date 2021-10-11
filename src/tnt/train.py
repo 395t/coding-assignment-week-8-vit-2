@@ -281,9 +281,6 @@ def test(epoch):
         appender.write(content + "\n")
     return test_loss/(batch_idx+1), acc
 
-list_loss = []
-list_acc = []
-
 wandb.watch(net)
 log = []
 for epoch in range(start_epoch, args.n_epochs):
@@ -294,19 +291,9 @@ for epoch in range(start_epoch, args.n_epochs):
     if args.cos:
         scheduler.step(epoch-1)
     
-    list_loss.append(val_loss)
-    list_acc.append(val_acc)
-    
     # Log training..
     log.append({'epoch': epoch, 'trn_loss': train_loss, 'trn_acc': train_acc, 'val_loss': val_loss, 'val_acc': val_acc})
     wandb.log({'epoch': epoch, 'train_loss': train_loss, 'train_acc': train_acc, 'val_loss': val_loss, "val_acc": val_acc, "lr": optimizer.param_groups[0]["lr"], "epoch_time": time.time()-start})
-
-    # Write out csv..
-    with open(f'log/log_{args.net}_patch{args.patch}.csv', 'w') as f:
-        writer = csv.writer(f, lineterminator='\n')
-        writer.writerow(list_loss) 
-        writer.writerow(list_acc) 
-    print(list_loss)
 
 # writeout
 import json
