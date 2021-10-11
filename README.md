@@ -109,25 +109,25 @@ All models are trained with Adam optimizer and cosine learning rate schedule. Fo
 Train/Validation accuracy of `Rand-TnT` model across datasets at different learning rates
 Dataset           | Validation                                                  |  Train
 :----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
-CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_LR.png" height="250"/> 
-STL-10 | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_LR.png" height="250"/> 
-Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_LR.png" height="250"/> 
+**CIFAR-10** | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_LR.png" height="250"/> 
+**STL-10** | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_LR.png" height="250"/> 
+**Tiny-ImageNet** | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_LR.png" height="250"/> 
 
 ## `Pre-TnT` Results
 Train/Validation accuracy of `Pre-TnT` model across datasets at different learning rates
 Dataset           | Validation                                                  |  Train
 :----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
-CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
-STL-10 | <img src="src/tnt/Plots/STL-10_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/STL-10_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
-Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
+**CIFAR-10** | <img src="src/tnt/Plots/CIFAR-10_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
+**STL-10** | <img src="src/tnt/Plots/STL-10_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/STL-10_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
+**Tiny-ImageNet** | <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
 
 ## Pixel size and Patch size ablation
 Train/Validation accuracy of `Rand-TnT` model across datasets with different combination of `patch-size` and `pixel-size`
 Dataset           | Validation                                                  |  Train
 :----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
-CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
-STL-10 | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
-Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
+**CIFAR-10** | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
+**STL-10** | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
+**Tiny-ImageNet** | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
 
 ## Conclusion
 * With Pretraining TnT gets very good results but without pretraining it doesn't perform that impressive
