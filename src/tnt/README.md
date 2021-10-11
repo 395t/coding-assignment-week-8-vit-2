@@ -42,7 +42,7 @@ All models are trained with Adam optimizer and cosine learning rate schedule. Fo
 * Batch-Size (BS): 128
 
 ## `Rand-TnT` Results
-
+Train/Validation accuracy of `Rand-TnT` model across datasets at different learning rates
 Dataset           | Validation                                                  |  Train
 :----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
 CIFAR-10 | <img src="Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
@@ -50,10 +50,21 @@ STL-10 | <img src="Plots/STL-10_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <
 Tiny-ImageNet | <img src="Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
 
 ## `Pre-TnT` Results
-
+Train/Validation accuracy of `Pre-TnT` model across datasets at different learning rates
+Dataset           | Validation                                                  |  Train
+:----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
+CIFAR-10 | <img src="Plots/CIFAR-10_Pre-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="Plots/CIFAR-10_Pre-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+STL-10 | <img src="Plots/STL-10_Pre-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="Plots/STL-10_Pre-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+Tiny-ImageNet | <img src="Plots/Tiny-ImageNet_Pre-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="Plots/Tiny-ImageNet_Pre-TnT:_Train_Acc_vs_LR.png" height="300"/> 
 
 ## Pixel size and Patch size ablation
+Train/Validation accuracy of `Rand-TnT` model across datasets with different combination of Patch-size and Pixel-size
+Dataset           | Validation                                                  |  Train
+:----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
+CIFAR-10 | <img src="Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="300"/> |  <img src="Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="300"/> 
+STL-10 | <img src="Plots/STL-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="300"/> |  <img src="Plots/STL-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="300"/> 
+Tiny-ImageNet | <img src="Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_Arch.png" height="300"/> |  <img src="Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_Arch.png" height="300"/> 
 
 ## Conclusion
-* With Pretraining TnT gets very good results but without pretraining it doesn't perform very impressive
+* With Pretraining TnT gets very good results but without pretraining it doesn't perform that impressive
 * Smaller patch sizes and pixel sizes give better results across all 3 datasets for randomly initialized TnT models
