@@ -73,6 +73,28 @@ def get_data_transforms(dataset, random_aug):
         ])
 
     elif dataset == 'tinyimagenet':
+        if random_aug:
+            rt = T.RandomChoice([
+                T.ColorJitter(0.2, 0.2, 0.2, 0.2),
+                T.RandomHorizontalFlip(),
+                T.RandomVerticalFlip(),
+                T.RandomRotation(degrees=(0, 180)),
+                T.transforms.RandomResizedCrop(64, scale=(0.5, 1)),
+                T.RandomAffine(degrees=15, translate=(0.2, 0.2),
+                               scale=(0.8, 1.2), shear=15,
+                               resample=Image.BILINEAR),
+                T.RandomEqualize(),
+                T.RandomAutocontrast(),
+                T.RandomAdjustSharpness(sharpness_factor=2),
+            ])
+            transforms.append(
+                T.RandomChoice([
+                    rt,
+                    T.Compose([rt, rt]),
+                    T.Compose([rt, rt, rt]),
+                    T.Compose([rt, rt, rt, rt]),
+                ])
+            )
         transforms.extend([
             T.ToTensor(),
         ])
@@ -96,7 +118,7 @@ def get_datasets(config, data_root):
         train_dataset_eval = datasets.CIFAR10(root=root_dir, train=True, transform=eval_transforms, download=True)
     elif config.dataset == 'tinyimagenet':
         train_dataset = datasets.ImageFolder(os.path.join(root_dir, 'train'), transform=train_transforms)
-        test_dataset = datasets.ImageFolder(os.path.join(root_dir, 'test'), transform=eval_transforms)
+        test_dataset = datasets.ImageFolder(os.path.join(root_dir, 'val'), transform=eval_transforms)
         train_dataset_eval = datasets.ImageFolder(os.path.join(root_dir, 'train'), transform=eval_transforms)
 
     return train_dataset, test_dataset, train_dataset_eval
