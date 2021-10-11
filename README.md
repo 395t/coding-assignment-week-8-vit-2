@@ -18,11 +18,11 @@ Datasets used:
 
 ### **Code Structure**
 
-The code needed to replicate the Perceiver IO can be found in ``./notebooks/PerceiverIO/PerceiverIOTraining.ipynb``. The code for loading the datasets, create a base model architecture, and the training code are located in this notebook. I would recommend taking this direct notebook and uploading it to Google Colab for use.
+The code needed to replicate the Perceiver IO can be found in ``./notebooks/PerceiverIO/PerceiverIOTraining.ipynb``. The code for loading the datasets, creating a base model architecture, and the training code are located in this notebook. I would recommend taking this direct notebook and uploading it to Google Colab for use.
 
 ### **Commands to Run the Code**
 
-The code for this experiments is in an ``.ipynb notebook`` that was created on run on colab. It includes the necessary install commands to directly run on colab. 
+The code for the experiments is in an ``.ipynb notebook`` that was created on run on colab. It includes the necessary install commands to directly run on colab. 
 
 ### **Task**
 
@@ -30,11 +30,11 @@ Use Perceiver IO Architecture for Image Classification
 
 ### **Model Architecture**
 
-We used the [pytorch implementation](https://github.com/lucidrains/perceiver-pytorch) of the Perceiver IO architecture and devided the parameters of the model for each task. We also used a randomly generated query vector that had a size of ``(batch_size, 1, num_classes)`` that was jointly trained with the Perceiver IO model. Due to the PyTorch implementation, we reshaped images from (batch_size, num_channels, height, width) to (batch_size, 1, num_channels * height * width) before passing into the model. We used a cross entropy loss function and AdamW optimizer to train the model and the query vector. The output of the model is just a tensor of size (batch_size, output_labels). There data augmentations also applied to the training images to boost performance. It should also be noted that lack of computation resources forced us to use a shallower version of a Perceiver IO model with a depth of 2. 
+We used the [pytorch implementation by lucidrains](https://github.com/lucidrains/perceiver-pytorch) of the Perceiver IO architecture and determined the parameters of the model for each task. We also used a randomly generated query vector that had a size of ``(batch_size, 1, num_classes)`` that was jointly trained with the Perceiver IO model. Due to the PyTorch implementation, we reshaped images from (batch_size, num_channels, height, width) to (batch_size, 1, num_channels * height * width) before passing into the model. We used a cross entropy loss function and AdamW optimizer to train the model and the query vector. The output of the model is just a tensor of size (batch_size, output_labels). There were data augmentations also applied to the training images to boost performance. 
 
 ### **Conducted Experiments**
 
-We tested out the PerceiverIO model that is not pre-trained on 3 different datasets. We recorded the training and test loss and accuracies for each dataset. We also ran an ablation study on the affect of learning rate and batch size on the model's performance. 
+We tested out the PerceiverIO model trained from scratch on 3 different datasets. We recorded the training and test loss and accuracies for each dataset. We also ran an ablation study on the affect of learning rate and batch size on the model's performance. 
 
 
 ### **Results**
@@ -62,7 +62,7 @@ Pytorch Perceiver IO Model Parameters:
   <img src="./notebooks/PerceiverIO/Images/CIFAR10Loss.png" width="49%" /> 
 </p>
 
-The following hyperparameters were fixed for this experiment: batch_size = 128, learning_rate = 3e-4. We trained a Perceiver IO model from scratch on CIFAR-10 images and were able to achieve a test set accuracy of 0.5619. At about 15 epochs, the test accuracy converged to about 55% accuracy. The model definitely overfit as the training set accuracy contiued to grow much after the test set converged. The loss plots show a similar pattern. The test set loss converged around the 10 epoch mark while the test set loss continued to dip. 
+The following hyperparameters were fixed for this experiment: batch_size = 128, learning_rate = 3e-4. We trained a Perceiver IO model from scratch on CIFAR-10 images and were able to achieve a test set accuracy of 0.5619. At about 15 epochs, the test accuracy converged to about 55% accuracy. The model definitely overfit as the training set accuracy continued to grow much after the test set converged. 
 
 **STL-10**
 
@@ -86,7 +86,7 @@ Pytorch Perceiver IO Model Parameters:
   <img src="./notebooks/PerceiverIO/Images/STL10Loss.png" width="49%" /> 
 </p>
 
-The batch size was set to 128 and the learning rate was also kept at 3e-4. We trained another Perceiver IO model from scratch on the STL-10 dataset. The test set accuracy did not outperform the CIFAR-10 model and achieved a best test accuracy of 0.4748. There is also evidence of overfitting here as the model continued to get higher accuracies on the train data while the test set accuracy had converged. The test loss of the model converged around the 5th epoch while the training loss continue to decrease. 
+The following hyperparameters were fixed for this experiment: batch_size = 128, learning_rate = 3e-4. We trained another Perceiver IO model from scratch on the STL-10 dataset. The test set accuracy did not outperform the CIFAR-10 model and achieved a best test accuracy of 0.4748. There is also evidence of overfitting here as the model continued to get higher accuracies on the train data while the test set accuracy had converged.
 
 **TinyImageNet**
 
@@ -110,11 +110,11 @@ Pytorch Perceiver IO Model Parameters:
   <img src="./notebooks/PerceiverIO/Images/TinyImageNetLoss.png" width="49%" /> 
 </p>
 
-The batch size was set to 128, and the learning rate to 3e-4. Our from-scratch Perceiver IO model did poorly on this particularly dataset compared to the two previous models. There was massive overfitting when training this model on the TinyImageNet dataset as the discrepancy between training set and test set accuracy is apparent at the 17th epoch. Like the loss curves from the STL-10 model, the test los converged relatively quickly while the training loss continue to drop. 
+The following hyperparameters were fixed for this experiment: batch_size = 128, learning_rate = 3e-4. Our from-scratch Perceiver IO model did poorly on this particularly dataset compared to the two previous models. There was massive overfitting when training this model on the TinyImageNet dataset as the discrepancy between training set and test set accuracy is apparent at the 17th epoch. 
 
 **Batch Size Ablation Study**
 
-We constructed multiple models with CIFAR-10 dataset. We also fixed the learning rate to be 3e-4. The model parameters were fixed for this ablation experiment:
+We constructed multiple models with CIFAR-10 dataset. We also fixed the learning rate to be 3e-4. The batch sizes tested were 16, 32, 64, 128. The model parameters were fixed for this ablation experiment:
 
 | Model Parameter | Vaue |
 | ------------- | ------------- |
@@ -137,7 +137,7 @@ From the above graph, the batch size of Perceiver IO seems to not affect model p
 
 **Learning Rate Ablation Study**
 
-For 12 epochs, we fixed the batch size to 128. The model parameters are as follows:
+For 12 epochs, we fixed the batch size to 128. The learning rate we tested were 1e-1, 1e-2, 1e-3, and 1e-4. The model parameters are as follows:
 
 | Model Parameter | Vaue |
 | ------------- | ------------- |
@@ -160,13 +160,18 @@ From the above graph, it appears to be the case that larger learning rates great
 
 ## **Conclusion**
 
-Despite data augmentations, there was a good amount of overfitting with a lot of the models and did not hit the benchmarks with relatively low overall test accuracies. From the hyperparameter ablation studies, the Perceiver IO model appears to be more robust to batch size and not robust to the learning rate.
+| CIFAR-10 | STL-10 |  TinyImageNet |
+| ------------- | ------------- | -----------|
+| 56.19%  | 47.48%  | 12.01% |
+
+Despite data augmentations, there was a good amount of overfitting with a lot of the models, and we did not hit the benchmarks with relatively low overall test accuracies. From the hyperparameter ablation studies, the Perceiver IO model appears to be more robust to batch size and not robust to the learning rate.
 
 Although the results were alright, they could have been better and we believe these are some of the reasons why the Perceiver IO model's performance was subpar:
 
 * **Model Depth**: Lack of computational resources restricted us from training deep versions of this model. We only kept the depth at 2 and believe we can achieve better results if we could train and evaluate with deeper models.
 * **Queries**: We used a simpler approach for determining the query vector (specifically a randomized torch tensor). By using more complex methods to determine these queries, we believe we achieve better results.
 * **Model Parameters**: Computational resource restrictions also limited our selection of the model parameters. By increasing the mode parameters such as nunmber of dimensions per cross attention and latent self attention heads, it is possible that better results are observed. 
+* **Pre-Training**: We could have likely attained better results if we used a pre-trained Perceiver IO model on these datasets compared to the models trained from scratch.
 
 ## MLP-Mixer
 
