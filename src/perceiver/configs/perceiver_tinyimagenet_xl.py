@@ -13,7 +13,7 @@ def get_config():
 
         train=C(
             batch_size          = 64,
-            num_epochs          = 20,
+            num_epochs          = 100,
             random_aug          = True,
         ),
 
@@ -34,8 +34,8 @@ def get_config():
             latent_dim          = 96,       # latent dimension
             cross_heads         = 1,        # number of heads for cross attention. paper said 1
             latent_heads        = 8,        # number of heads for latent self attention, 8
-            cross_dim_head      = 32,       # number of dimensions per cross attention head
-            latent_dim_head     = 64,       # number of dimensions per latent self attention head
+            cross_dim_head      = 48,       # number of dimensions per cross attention head
+            latent_dim_head     = 48,       # number of dimensions per latent self attention head
             num_classes         = 200,      # output number of classes
             attn_dropout        = 0.2,
             ff_dropout          = 0.2,
