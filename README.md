@@ -12,7 +12,7 @@ Datasets used:
 * [STL-10](https://cs.stanford.edu/~acoates/stl10/)
 * [Tiny ImageNet](https://www.kaggle.com/c/tiny-imagenet)
 
-**TODO: Other architectures**
+# TODO: Other architectures
 
 ## MLP-Mixer
 
@@ -50,7 +50,14 @@ Overfitting again on CIFAR. The chosen learning rate is 0.001 and the batch size
 ## Conclusion: Training from scratch
 Even though the data was augmented and the small model used, MLP-Mixer overfit on each dataset and did not yield satisfactory results. The authors promise good results when using models pretrained on ImageNet, which will be examined in the following section.
 
-**TODO: Pretrained**
+### Experiments: Fine-Tuning a pretrained model
+In this part, a pretrained MLP-Mixer model was fine-tuned on the three datasets. Since no pretrained model was available for the S/16 version, a pretrained B/16 was used instead. This model has 12 instead of 8 layers and more than three times the parameters so a comparison between the two is not really fair. It should prove however, that very good results can be achieved on the small datasets without the massive overfitting seen before.
+The model was fine-tuned for two epochs with a learning rate of 0.00005 and a batch size of 32.
+
+### Results: Fine-Tuning a pretrained model
+| Dataset | CIFAR-10 | STL-10 | Tiny ImageNet |
+| -- | -- | -- | -- |
+| Validation Accuracy | 95% | 94.9% | TODO
 
 
-**TODO: Conclusion**
+# TODO: Overall Conclusion
