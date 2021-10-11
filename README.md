@@ -122,7 +122,7 @@ STL-10 | <img src="src/tnt/Plots/STL-10_Pre-TnT:_Val_Acc_vs_LR.png" height="250"
 Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Val_Acc_vs_LR.png" height="250"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Pre-TnT:_Train_Acc_vs_LR.png" height="250"/> 
 
 ## Pixel size and Patch size ablation
-Train/Validation accuracy of `Rand-TnT` model across datasets with different combination of Patch-size and Pixel-size
+Train/Validation accuracy of `Rand-TnT` model across datasets with different combination of `patch-size` and `pixel-size`
 Dataset           | Validation                                                  |  Train
 :----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
 CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_Arch.png" height="250"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_Arch.png" height="250"/> 
