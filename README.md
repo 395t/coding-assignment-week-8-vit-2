@@ -26,7 +26,6 @@ python main.py perceiver_stl10{,_large,_xl}
 python main.py perceiver_tinyimagenet_large{,_noaug}
 
 # Plot graphs.
-```shell
 python plot.py plot_train \
     --dataset CIFAR-10 \
     --files result_perceiver_cifar10.yml,result_perceiver_cifar10_large.yml,result_perceiver_cifar10_xl.yml \
