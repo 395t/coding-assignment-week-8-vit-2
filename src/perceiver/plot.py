@@ -17,43 +17,13 @@ import torch
 _MARKERS = ['o', '^', 's', 'x', '+']
 
 
-# def compare_opts(lrs=None):
-#     if lrs is None:
-#         lrs = [0.0005, 0.001, 0.005, 0.01, 0.05, 0.1]
-#     elif not isinstance(lrs, tuple):
-#         lrs = (lrs,)
-#     print(f'Running for LRs: {lrs}')
-#     for lr in lrs:
-#         for opt_name in OPT_NAMES: 
-#             out_dir = f'results/compare_opts/lr={lr}/{opt_name}'
-#             os.makedirs(out_dir, exist_ok=True)
-#             if len(os.listdir(out_dir)) > 0:
-#                 shutil.rmtree(out_dir)
-#                 os.makedirs(out_dir, exist_ok=False)
-#             hparams = HParams(out_dir=out_dir,
-#                               z_dim=20,
-#                               lr=lr,
-#                               epochs=150,
-#                               ckpt_freq=30,
-#                               sample_freq=5,
-#                               opt_name=opt_name)
-#             print(f'\n[compare_opts] Running for lr={hparams.lr} optimizer={hparams.opt_name}')
-#             try:
-#                 trainer.train(hparams)
-#             except KeyboardInterrupt:
-#                 print(f'[compare_opts] Run skipped manually.')
-#                 raise KeyboardInterrupt
-#             except Exception:
-#                 print(traceback.format_exc())
-#                 print(f'[compare_opts] Unknown error encountered for lr={hparams.lr} optimizer={hparams.opt_name}')
-
-
 def plot(fn_prefix, results, smooth=5, skip_first=None, set_kwargs=None, legend_loc='best'):
     fig = plt.figure(1, figsize=(6, 4))
     ax = fig.add_subplot()
-    for label, values in results.items():
-        x = np.arange(1, len(values)+1)
-        y = np.array(values)
+    max_len = min(len(v) for v in results.values())
+    for i, (label, values) in enumerate(results.items()):
+        x = np.arange(1, len(values)+1)[:max_len]
+        y = np.array(values)[:max_len]
         assert x.shape == y.shape
         if smooth is not None:
             y[smooth-1:] = np.convolve(y, np.ones(smooth), 'valid') / smooth
