@@ -83,7 +83,7 @@ We mainly experiment with following 2 types of TnT models
 * `Pre-TnT`: Pretrained TnT model (TnT-S in the paper) from timm library (`tnt_s_patch16_224`)
 
 ### Augmentation
-All experiments use following augmentation to input images, without augmentations we get noticable degradation in validation accuracy
+All experiments use following augmentation to input images, without augmentations we get noticable degradation in validation accuracy (especially on smaller datasets)
 ``` python
 transform_train = transforms.Compose([
     transforms.Resize(size),
@@ -109,9 +109,9 @@ All models are trained with Adam optimizer and cosine learning rate schedule. Fo
 Train/Validation accuracy of `Rand-TnT` model across datasets at different learning rates
 Dataset           | Validation                                                  |  Train
 :----------------:|:-----------------------------------------------------------:|:----------------------------------------------------------------:
-CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
-STL-10 | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
-Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_LR.png" height="300"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_LR.png" height="300"/> 
+CIFAR-10 | <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Val_Acc_vs_LR.png"/> |  <img src="src/tnt/Plots/CIFAR-10_Rand-TnT:_Train_Acc_vs_LR.png"/> 
+STL-10 | <img src="src/tnt/Plots/STL-10_Rand-TnT:_Val_Acc_vs_LR.png"/> |  <img src="src/tnt/Plots/STL-10_Rand-TnT:_Train_Acc_vs_LR.png"/> 
+Tiny-ImageNet | <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Val_Acc_vs_LR.png"/> |  <img src="src/tnt/Plots/Tiny-ImageNet_Rand-TnT:_Train_Acc_vs_LR.png"/> 
 
 ## `Pre-TnT` Results
 Train/Validation accuracy of `Pre-TnT` model across datasets at different learning rates
