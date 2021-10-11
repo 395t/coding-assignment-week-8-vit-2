@@ -84,13 +84,13 @@ def plot_curves(*, out, files, labels, split, dataset):
         loss_results[label] = dd[f'{split}_loss']
         acc_results[label] = dd[f'{split}_acc']
 
-    plot(out, loss_results, set_kwargs={
+    plot(out + '_loss', loss_results, set_kwargs={
         'title': f'{dataset}: {split_up} Loss',
         'xlabel': 'Epoch',
         'ylabel': f'{split_up} Loss',
     })
 
-    plot(out, acc_results, set_kwargs={
+    plot(out + '_acc', acc_results, set_kwargs={
         'title': f'{dataset}: {split_up} Accuracy',
         'xlabel': 'Epoch',
         'ylabel': f'{split_up} Accuracy',
