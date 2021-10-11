@@ -214,4 +214,42 @@ The model was fine-tuned for two epochs with a learning rate of 0.00005 and a ba
 | Validation Accuracy | 95% | 94.9% | TODO
 
 
-# TODO: Overall Conclusion
+# Perceiver
+
+## Code
+We adopted the publicly available implementation of Peceiver by **lucidrains** from its [Github repository](https://github.com/lucidrains/perceiver-pytorch/).
+All of our experiment code can be found in the [**`perceiver`** directory](https://github.com/395t/coding-assignment-week-8-vit-2/blob/main/src/perceiver/). Below are commands to replicate our experiments.
+
+```shell
+# Train Perceiver models.
+python main.py perceiver_cifar10{,_large,_xl}
+python main.py perceiver_stl10{,_large,_xl}
+python main.py perceiver_tinyimagenet_large{,_noaug}
+
+# Plot graphs.
+```shell
+python plot.py plot_train \
+    --dataset CIFAR-10 \
+    --files result_perceiver_cifar10.yml,result_perceiver_cifar10_large.yml,result_perceiver_cifar10_xl.yml \
+    --labels "Perceiver - Medium,Perceiver - Large,Perceiver - XLarge" \
+    --out plot_cifar10_train
+
+python plot.py plot_test \
+    --dataset CIFAR-10 \
+    --files result_perceiver_cifar10.yml,result_perceiver_cifar10_large.yml,result_perceiver_cifar10_xl.yml \
+    --labels "Perceiver - Medium,Perceiver - Large,Perceiver - XLarge" \
+    --out plot_cifar10_test
+```
+
+Replace `CIFAR-10` and `cifar10` with `STL-10` and `stl10` to plot graphs for STL-10.
+
+## Experiment Setup
+TODO
+
+
+## Results
+TODO
+
+
+## Conclusion
+TODO
