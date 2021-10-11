@@ -206,12 +206,12 @@ Even though the data was augmented and the small model used, MLP-Mixer overfit o
 
 ### Experiments: Fine-Tuning a pretrained model
 In this part, a pretrained MLP-Mixer model was fine-tuned on the three datasets. Since no pretrained model was available for the S/16 version, a pretrained B/16 was used instead. This model has 12 instead of 8 layers and more than three times the parameters so a comparison between the two is not really fair. It should prove however, that very good results can be achieved on the small datasets without the massive overfitting seen before.
-The model was fine-tuned for two epochs with a learning rate of 0.00005 and a batch size of 32.
+The model was fine-tuned for two epochs (except for Tiny ImageNet as Colab decided to revoke my GPU access after one epoch) with a learning rate of 0.00005 and a batch size of 32.
 
 ### Results: Fine-Tuning a pretrained model
 | Dataset | CIFAR-10 | STL-10 | Tiny ImageNet |
 | -- | -- | -- | -- |
-| Validation Accuracy | 95% | 94.9% | TODO
+| Validation Accuracy | 95% | 94.9% | 83.3%
 
 
 # Perceiver
