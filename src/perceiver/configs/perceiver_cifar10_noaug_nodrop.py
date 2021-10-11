@@ -12,8 +12,8 @@ def get_config():
         result_file         = 'result_perceiver_cifar10_noaug_nodrop.yml',
 
         train=C(
-            batch_size          = 256,
-            num_epochs          = 20,
+            batch_size          = 64,
+            num_epochs          = 100,
             random_aug          = False,
         ),
 

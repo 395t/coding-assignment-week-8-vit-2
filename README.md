@@ -108,6 +108,32 @@ Expectedly, test losses show the ordering that is consistent with network sizes.
   <img src="images/perceiver_stl10_train_loss.png" width="49%" />
 </p>
 
+## Study: Effects of Dropout and Data Augmentation
+
+To study the effects of dropout and data augmentation, we trained three different versions of the small CIFAR-10 Perceiver architecture. Below are test and train accuracy curves.
+
+<p float="middle">
+  <img src="images/perceiver_cifar10_overfit_test_acc.png" width="49%" />
+  <img src="images/perceiver_cifar10_overfit_train_acc.png" width="49%" />
+</p>
+
+## Result: Tiny Imagenet
+
+For Tiny Imagenet, we also trained three different models with different dropout and data augmentation strategies.
+
+<p float="middle">
+  <img src="images/perceiver_tiny_overfit_test_acc.png" width="49%" />
+  <img src="images/perceiver_tiny_overfit_train_acc.png" width="49%" />
+</p>
+
+Again, random augmentation did not help the model generalize better.
+Surprisingly, the issue of overfitting was even more significant for Tiny Imagenet, which we expected to be the most complex dataset and to suffer the least from overfitting.  See the train loss curves  below.
+
+<p float="middle">
+  <img src="images/perceiver_tiny_overfit_test_loss.png" width="49%" />
+  <img src="images/perceiver_tiny_overfit_train_loss.png" width="49%" />
+</p>
+
 ## Conclusion
 
 As promised in the paper, we were able to train the same Perceiver architecture for multiple image resolutions without any modification.  Overfitting was a big issue, which made data augmentation and dropout necessary.
