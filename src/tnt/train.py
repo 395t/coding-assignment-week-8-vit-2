@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 
-Train CIFAR10 with PyTorch and Vision Transformers!
-written by @kentaroy47, @arutema47
+Adapted from : https://github.com/kentaroy47/vision-transformers-cifar10
 
 '''
 
