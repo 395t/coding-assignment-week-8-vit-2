@@ -223,7 +223,7 @@ The model was fine-tuned for two epochs (except for Tiny ImageNet as Colab decid
 
 ## Code
 We adopted the publicly available implementation of Peceiver by **lucidrains** from its [Github repository](https://github.com/lucidrains/perceiver-pytorch/).
-All of our experiment code can be found in the [**`perceiver`** directory](https://github.com/395t/coding-assignment-week-8-vit-2/blob/main/src/perceiver/). Below are commands to replicate our experiments.
+All of our experiment code can be found in the [`src/perceiver` directory](https://github.com/395t/coding-assignment-week-8-vit-2/blob/main/src/perceiver/). Below are commands to replicate our experiments.
 
 ```shell
 # Train Perceiver models.
@@ -237,24 +237,85 @@ python plot.py plot_train \
     --dataset CIFAR-10 \
     --files result_perceiver_cifar10.yml,result_perceiver_cifar10_large.yml,result_perceiver_cifar10_xl.yml \
     --labels "Perceiver - Medium,Perceiver - Large,Perceiver - XLarge" \
-    --out plot_cifar10_train
+    --out plots/cifar10_train
 
 python plot.py plot_test \
     --dataset CIFAR-10 \
     --files result_perceiver_cifar10.yml,result_perceiver_cifar10_large.yml,result_perceiver_cifar10_xl.yml \
     --labels "Perceiver - Medium,Perceiver - Large,Perceiver - XLarge" \
-    --out plot_cifar10_test
+    --out plot/cifar10_test
 ```
 
 Replace `CIFAR-10` and `cifar10` with `STL-10` and `stl10` to plot graphs for STL-10.
 
 ## Experiment Setup
-TODO
 
+Due to computational constraints, we had to downsize our models.  That said, even after making the models smaller, our initial results exhibited significant overfitting.
+The exact hyperparameters we used can be found under the [`src/perceiver/configs` directory](https://github.com/395t/coding-assignment-week-8-vit-2/blob/main/src/perceiver/configs/)
 
-## Results
-TODO
+### Overfitting and Data Augmentation
 
+To mitigate this, we introduced dropout of 0.2 at both attention as well as fully-connected layers.  We also added custom data augmentation (which we also hand-tuned).  Data augmentation was particularly important for smaller datasets (CIFAR-10 and STL-10). The list of augmentations we used can be found below:
+```python
+# All of the following are implemented in PyTorch data transforms.
+ColorJitter(0.2, 0.2, 0.2, 0.2),
+RandomHorizontalFlip(),
+RandomVerticalFlip(),
+RandomRotation(degrees=(0, 180)),
+RandomAffine(degrees=15, translate=(0.2, 0.2),
+      scale=(0.8, 1.2), shear=15,
+      resample=Image.BILINEAR),
+RandomEqualize(),
+RandomAutocontrast(),
+RandomAdjustSharpness(sharpness_factor=2),
+
+# For STL-10, we optionally added:
+RandomResizedCrop(96, scale=(0.5, 1)),
+```
+During training, we then randomly applied 1-4 of them for each example.
+
+## Result: CIFAR-10
+
+We train and compare three different network sizes for CIFAR-10.  They were trained for 100 epochs, all with data augmentation and dropout enabled as decribed above.
+As you can see below, even with strong data augmentation and dropout, there is a substantial gap between train and test accuracies, especially for larger models.
+Despite the large increase in train accuracies, test set performances were comparable for all three.
+
+<p float="middle">
+  <img src="images/perceiver_cifar10_test_acc.png" width="49%" />
+  <img src="images/perceiver_cifar10_train_acc.png" width="49%" />
+</p>
+
+For reference, we include parameter counts of the three models.
+
+|    | Medium | Large | XLarge |
+| -- | -- | -- | -- |
+| Parameter # | 293,362 | 1,151,730 | 4,428,262 |
+
+Below we plot train/test loss curves after each epoch.  The behavior of these curves is more or less consistent with accuracy curves.  One interesting observation is that test losses start to increase for larger models due to overfitting, yet their test accuracies are still higher.
+
+<p float="middle">
+  <img src="images/perceiver_cifar10_test_loss.png" width="49%" />
+  <img src="images/perceiver_cifar10_train_loss.png" width="49%" />
+</p>
+
+## Result: STL-10
+
+We repeated the same experiment for STL-10.  Surprisingly, train/test accuracy curves exhibit a different behavior compared to the CIFAR-10 experiment.
+One, the Large model outperforms both Medium and XLarge models in test set accuracy, even though its train accuracy is essentially identical to the XLarge model.
+
+<p float="middle">
+  <img src="images/perceiver_stl10_test_acc.png" width="49%" />
+  <img src="images/perceiver_stl10_train_acc.png" width="49%" />
+</p>
+
+Expectedly, test losses show the ordering that is consistent with network sizes.  It is unclear why the Large model, which clearly seems to overfit to train set, achieves the best performance among the three.  Train losses match the train accuracy values exactly.
+
+<p float="middle">
+  <img src="images/perceiver_stl10_test_loss.png" width="49%" />
+  <img src="images/perceiver_stl10_train_loss.png" width="49%" />
+</p>
 
 ## Conclusion
-TODO
+
+As promised in the paper, we were able to train the same Perceiver architecture for multiple image resolutions without any modification.  Overfitting was a big issue, which made data augmentation and dropout necessary.
+We were unfortunately unable to match the promised performance of Perceiver, falling shy of 70% test set accuracy for CIFAR-10, for example.

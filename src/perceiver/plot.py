@@ -48,7 +48,7 @@ _MARKERS = ['o', '^', 's', 'x', '+']
 #                 print(f'[compare_opts] Unknown error encountered for lr={hparams.lr} optimizer={hparams.opt_name}')
 
 
-def plot(fn_prefix, results, smooth=None, skip_first=None, set_kwargs=None):
+def plot(fn_prefix, results, smooth=5, skip_first=None, set_kwargs=None, legend_loc='best'):
     fig = plt.figure(1, figsize=(6, 4))
     ax = fig.add_subplot()
     for label, values in results.items():
@@ -65,7 +65,7 @@ def plot(fn_prefix, results, smooth=None, skip_first=None, set_kwargs=None):
     ax.grid(True, axis='x', linestyle='--', linewidth=1)
     if set_kwargs is not None:
         ax.set(**set_kwargs)
-    ax.legend(loc='lower right')
+    ax.legend(loc=legend_loc)
     fig.savefig(fn_prefix+'.pdf', dpi=150, bbox_inches='tight')
     fig.savefig(fn_prefix+'.png', dpi=150, bbox_inches='tight')
     plt.close(fig)
@@ -84,13 +84,13 @@ def plot_curves(*, out, files, labels, split, dataset):
         loss_results[label] = dd[f'{split}_loss']
         acc_results[label] = dd[f'{split}_acc']
 
-    plot(out + '_loss', loss_results, set_kwargs={
+    plot(out + '_loss', loss_results, legend_loc='upper right', set_kwargs={
         'title': f'{dataset}: {split_up} Loss',
         'xlabel': 'Epoch',
         'ylabel': f'{split_up} Loss',
     })
 
-    plot(out + '_acc', acc_results, set_kwargs={
+    plot(out + '_acc', acc_results, legend_loc='lower right', set_kwargs={
         'title': f'{dataset}: {split_up} Accuracy',
         'xlabel': 'Epoch',
         'ylabel': f'{split_up} Accuracy',
