@@ -12,6 +12,55 @@ Datasets used:
 * [STL-10](https://cs.stanford.edu/~acoates/stl10/)
 * [Tiny ImageNet](https://www.kaggle.com/c/tiny-imagenet)
 
+## Swin Transformer
+The Swin Transformers were obtained through the use of the timm library (https://github.com/rwightman/pytorch-image-models). For pre-training we use Swin-B. Since we're training models with smaller inputs, when training from scratch we use models similar in dimensions to Swin-T. Following is a table with hyperparameters choices:
+|             | Swin-B        | Swin-T       | Swin CIFAR-10 | Swin  STL-10 | Swin Tiny ImageNet |
+| ----------- | ------------- | ------------ | ------------- | ------------ | ------------------ |
+| img_size    | 224           | 224          | 32            | 96           | 64                 |
+| embed_dim   | 128           | 96           | 64            | 64           | 64                 |
+| depths      | 2, 2,  18, 2  | 2, 2, 6, 2   | 2, 2, 8, 2    | 2, 2, 8, 2   | 2, 2, 8, 2         |
+| num_heads   | 4, 8,  16, 32 | 3, 6, 12, 24 | 2, 4, 8, 16   | 2, 4, 8, 16  | 2, 4, 8, 16        |
+| patch_size  | 4             | 4            | 4             | 4            | 4                  |
+| window_size | 7             | 7            | 8             | 12           | 8                  |
+
+The model wasn't the most flexible to hyper parameter setting so although we would've ideally used  Swin-T for testing, it was not possible unless we wanted to do resizing to out input. All models were trained with learning rate 5e-4.
+
+### **Results**
+**CIFAR-10**
+<p float="middle">
+  <img src="./src/swin/CifarAcc.png" width="49%"/>
+  <img src="./src/swin/CifarLoss.png" width="49%" /> 
+</p>
+
+In the CIFAR dataset we see out best results with SWIN. Our model nearly reaches 80% validation accuracy and barely starts showing signs of converging. This additionally being the model with the smallest input data were able to use large batches  of size 1024.
+
+**STL-10**
+<p float="middle">
+  <img src="./src/swin/StlAcc.png" width="49%"/>
+  <img src="./src/swin/StlLoss.png" width="49%" /> 
+</p>
+
+The training curve for the STL-10 Dataset looks similar to that of CIFAR's however  with lower overall results.  Additionally the curve is generally bumpier indicating that the model was having more difficulty converging.
+
+**Tiny ImageNet**
+<p float="middle">
+  <img src="./src/swin/TinyAcc.png" width="49%"/>
+  <img src="./src/swin/TinyLoss.png" width="49%" /> 
+</p>
+
+The tiny ImageNet model converged extremely quickly, especially compared to all the other models. This is probably due to the lack of data and variety of classes which allowed the model to memorize datapoints as opposed  to being able to generalize well to the data.
+
+### **Pre-Training**
+Fine-tuning a pre-trained model yielded extremely impresive results. Here are the accuracies after fine-tuning for one epoch
+
+|               | Accuracy |
+| ------------- | -------- |
+| CIFAR-10      | 96.39%   |
+| STL-10        |          |
+| Tiny ImageNet |          |
+
+### **Conclusion**
+Although at times extremely impressive, I would consider the Swin Transformer extremely finicky. At times results were extremely random and finding a set of hyperparameters that set the model up for success was difficult. Changing certain  depths and window size often didn't show consistent trends and looking at the learning  rate there doesn't seem to be many changes. This results on models that often converge  to lower accuracies. On the other hand however, fine-tuning the model shows extremely impressive results when fine-tuning the model. This leads me to believe that this  model shines brightest in large scale settings  were many branching hyperparameters can be explored and pre-training is an option.
 
 # Perceiver
 
