@@ -200,8 +200,8 @@ Despite the large increase in train accuracies, test set performances were compa
 
 For reference, we include parameter counts of the three models.
 
-|    | Medium | Large | XLarge |
-| -- | -- | -- | -- |
+|             | Medium  | Large     | XLarge    |
+| ----------- | ------- | --------- | --------- |
 | Parameter # | 293,362 | 1,151,730 | 4,428,262 |
 
 Below we plot train/test loss curves after each epoch.  The behavior of these curves is more or less consistent with accuracy curves.  One interesting observation is that test losses start to increase for larger models due to overfitting, yet their test accuracies are still higher.
@@ -247,15 +247,26 @@ The best test set accuracies across all epochs are included below:
 
 ## Result: Tiny Imagenet
 
-For Tiny Imagenet, we also trained three different models with different dropout and data augmentation strategies.
+For Tiny Imagenet, we trained four different models with varying network size, dropout, and data augmentation.
 
 <p float="middle">
   <img src="images/perceiver_tiny_overfit_test_acc.png" width="49%" />
   <img src="images/perceiver_tiny_overfit_train_acc.png" width="49%" />
 </p>
 
-Surprisingly, in a contrast to the results from CIFAR-10 and STL-10, random augmentation did not help the model generalize better.
-Moreover, the issue of overfitting was even more significant for Tiny Imagenet, which we expected to be the most complex dataset and to suffer the least from overfitting.  See the train loss curves  below.
+Again, we observe significant overfitting for the models trained without random augmentation.
+Even with such measures, however, the XLarge model with over 3x more parameters did suffer from mild overfitting.
+The best performance metrics we observed for each model are shown in the table below.
+
+|                                   | Parameter #  | Best Train Accuracy | Best Test Accuracy |
+| --------------------------------- | ------------ |-------------------- | ------------------ |
+| No dropout/augmentation           | 1,164,080    | 91.83 %             | 18.30 %            |
+| Only dropout                      | 1,164,080    | 92.02 %             | 19.01 %            |
+| Dropout and Augmentation          | 1,164,080    | 47.31 %             | 24.85 %            |
+| Dropout and Augmentation (XLarge) | 3,880,868    | 83.60 %             | 24.81 %            |
+
+
+Interestingly, the issue of overfitting was even more significant for Tiny Imagenet, which we expected to be the most complex dataset and to suffer the least from overfitting.  See the train loss curves  below.
 
 <p float="middle">
   <img src="images/perceiver_tiny_overfit_test_loss.png" width="49%" />
@@ -265,7 +276,7 @@ Moreover, the issue of overfitting was even more significant for Tiny Imagenet, 
 ## Conclusion
 
 As promised in the paper, we were able to train the same Perceiver architecture for multiple image resolutions without any modification.  Overfitting was a big issue, which made data augmentation and dropout necessary.
-We were unfortunately unable to match the promised performance of Perceiver, falling shy of 70% test set accuracy for CIFAR-10, for example.
+We were unfortunately unable to match the promised performance of Perceiver, falling shy of 70% test set accuracy for CIFAR-10, for example.  We believe that with more extensive hyperparameter tuning and a larger model (as the ones used in the paper), the performance of the model should be competitive with other existing methods.
 
 
 # Perceiver IO

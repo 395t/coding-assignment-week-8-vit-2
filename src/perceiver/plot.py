@@ -76,11 +76,13 @@ def best_vals(*files):
         best_train_acc = max(dd['train_acc']) * 100.
         best_test_loss = min(dd['test_loss'])
         best_test_acc = max(dd['test_acc']) * 100.
+        num_params = dd['num_params']
         print(f'Results for: {fn}')
         print(f'  - best train acc: {best_train_acc:2f}')
         print(f'  - best test acc: {best_test_acc:2f}')
         print(f'  - best train loss: {best_train_loss:.4f}')
         print(f'  - best test loss: {best_test_loss:.4f}')
+        print(f'  - parameter count: {num_params}')
         print()
 
 
