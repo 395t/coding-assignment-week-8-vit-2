@@ -23,7 +23,7 @@ The Swin Transformers were obtained through the use of the timm library (https:/
 | patch_size  | 4             | 4            | 4             | 4            | 4                  |
 | window_size | 7             | 7            | 8             | 12           | 8                  |
 
-The model wasn't the most flexible to hyper parameter setting so although we would've ideally used  Swin-T for testing, it was not possible unless we wanted to do resizing to out input. All models were trained with learning rate 5e-4.
+The model wasn't the most flexible to hyper parameter setting so although we would've ideally used  Swin-T for testing, it was not possible unless we wanted to do resizing to our input. All models were trained with learning rate 5e-4 and with horizontal flip and cropping augmentations.
 
 ### **Results**
 **CIFAR-10**
@@ -55,9 +55,9 @@ Fine-tuning a pre-trained model yielded extremely impresive results. Here are th
 
 |               | Accuracy |
 | ------------- | -------- |
-| CIFAR-10      | 96.39%   |
-| STL-10        |          |
-| Tiny ImageNet |          |
+| CIFAR-10      | 96.4%    |
+| STL-10        | 78.1%    |
+| Tiny ImageNet | 79.9%    |
 
 ### **Conclusion**
 Although at times extremely impressive, I would consider the Swin Transformer extremely finicky. At times results were extremely random and finding a set of hyperparameters that set the model up for success was difficult. Changing certain  depths and window size often didn't show consistent trends and looking at the learning  rate there doesn't seem to be many changes. This results on models that often converge  to lower accuracies. On the other hand however, fine-tuning the model shows extremely impressive results when fine-tuning the model. This leads me to believe that this  model shines brightest in large scale settings  were many branching hyperparameters can be explored and pre-training is an option.
